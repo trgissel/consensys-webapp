@@ -36,10 +36,16 @@ func generateUUID() string {
 }
 
 func getContractsEndpoint(w http.ResponseWriter, req *http.Request) {
+	if !authenticate(w, req) {
+		return
+	}
 	json.NewEncoder(w).Encode(contracts)
 }
 
 func getContractEndpoint(w http.ResponseWriter, req *http.Request) {
+	if !authenticate(w, req) {
+		return
+	}
 	params := mux.Vars(req)
 	for _, item := range contracts {
 		if item.ID == params["id"] {
@@ -51,9 +57,7 @@ func getContractEndpoint(w http.ResponseWriter, req *http.Request) {
 }
 
 func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
-	var jwt = getJWT(w, req)
-	if len(jwt) < 1 {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+	if !authenticate(w, req) {
 		return
 	}
 	var contract CarContract
@@ -64,6 +68,9 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 }
 
 func createContractEndpointWithID(w http.ResponseWriter, req *http.Request) {
+	if !authenticate(w, req) {
+		return
+	}
 	params := mux.Vars(req)
 	var contract CarContract
 	// _ = json.NewDecoder(req.Body).Decode(&contract)
@@ -84,6 +91,19 @@ func createContractEndpointWithID(w http.ResponseWriter, req *http.Request) {
 }
 
 var mySigningKey = []byte("secret")
+
+func authenticate(w http.ResponseWriter, req *http.Request) bool {
+	var jwt = getJWT(w, req)
+	if len(jwt) < 1 {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return false
+	}
+	if !isTokenValid(jwt) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return false
+	}
+	return true
+}
 
 func login(w http.ResponseWriter, req *http.Request) {
 	var user models.User
@@ -113,6 +133,15 @@ func addUserIfNotExist(user string) {
 	usernames = append(usernames, user)
 }
 
+func hasUserLoggedIn(user string) bool {
+	for _, item := range usernames {
+		if item == user {
+			return true
+		}
+	}
+	return false
+}
+
 func isTokenValid(tokenString string) bool {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
@@ -125,13 +154,13 @@ func isTokenValid(tokenString string) bool {
 	})
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		_, ok := claims["name"]
-		if ok {
+		log.Println("valid token. Checking if logged in")
+		if name, ok := claims["name"].(string); ok && hasUserLoggedIn(name) {
 			return true
 		}
-	} else {
-		log.Println(err)
+		return false
 	}
+	log.Println(err)
 	return false
 }
 
