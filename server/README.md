@@ -34,3 +34,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjMxOTY5NzEsIm5hbWUiOiJqaW0iLCJ
 $ curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MjMxOTY5NzEsIm5hbWUiOiJqaW0iLCJwYXNzd29yZCI6InBhc3N3b3JkIn0.AHBO0cP9OQg3SYJR1caBy_2xPyyKI_KYEVJAHrrCl1c" -X POST http://localhost:8000/contract
 {"id":"a1d2ca66-4ab8-22f2-3875-a98924c66eb9"}
 ```
+
+###  Current state
+
+The server is a work in progress. Please see [TODO List](TODO.md) for more details
