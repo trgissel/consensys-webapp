@@ -22,6 +22,7 @@ type CarContract struct {
 }
 
 var contracts []CarContract
+var usernames []string
 
 func generateUUID() string {
 	b := make([]byte, 16)
@@ -88,13 +89,22 @@ func login(w http.ResponseWriter, req *http.Request) {
 	claims["name"] = user.Username
 	claims["password"] = user.Password
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
-
+	addUserIfNotExist(user.Username)
 	/* Sign the token with our secret */
 	tokenString, _ := token.SignedString(mySigningKey)
 
 	/* Finally, write the token to the browser window */
 	w.Write([]byte(tokenString))
 	//json.NewEncoder(w).Encode(user)
+}
+
+func addUserIfNotExist(user string) {
+	for _, item := range usernames {
+		if item == user {
+			return
+		}
+	}
+	usernames = append(usernames, user)
 }
 
 func isTokenValid(tokenString string) bool {
