@@ -8,7 +8,7 @@
 
 * compile `Car.sol`.
 
-```
+```shell
   solcjs --bin Car.sol
   solcjs --abi Car.sol
 ```
