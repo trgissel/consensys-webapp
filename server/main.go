@@ -6,7 +6,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
+	"./models"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
 )
 
@@ -73,9 +76,53 @@ func createContractEndpointWithID(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+var mySigningKey = []byte("secret")
+
+func login(w http.ResponseWriter, req *http.Request) {
+	var user models.User
+	_ = json.NewDecoder(req.Body).Decode(&user)
+	/* Create the token */
+	token := jwt.New(jwt.SigningMethodHS256)
+	/* Set token claims */
+	claims := token.Claims.(jwt.MapClaims)
+	claims["name"] = user.Username
+	claims["password"] = user.Password
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	/* Sign the token with our secret */
+	tokenString, _ := token.SignedString(mySigningKey)
+
+	/* Finally, write the token to the browser window */
+	w.Write([]byte(tokenString))
+	//json.NewEncoder(w).Encode(user)
+}
+
+func isTokenValid(tokenString string) bool {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Don't forget to validate the alg is what you expect:
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+
+		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
+		return mySigningKey, nil
+	})
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		_, ok := claims["name"]
+		if ok {
+			return true
+		}
+	} else {
+		log.Println(err)
+	}
+	return false
+}
+
 // main function to boot up everything
 func main() {
 	router := mux.NewRouter()
+	router.HandleFunc("/login", login).Methods("POST")
 	router.HandleFunc("/contract", createContractEndpoint).Methods("POST")
 	router.HandleFunc("/contract", getContractsEndpoint).Methods("GET")
 	router.HandleFunc("/contract/{id}", createContractEndpointWithID).Methods("POST")
