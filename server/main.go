@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"./models"
@@ -50,6 +51,11 @@ func getContractEndpoint(w http.ResponseWriter, req *http.Request) {
 }
 
 func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
+	var jwt = getJWT(w, req)
+	if len(jwt) < 1 {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
 	var contract CarContract
 	// _ = json.NewDecoder(req.Body).Decode(&contract)
 	contract.ID = generateUUID()
@@ -127,6 +133,16 @@ func isTokenValid(tokenString string) bool {
 		log.Println(err)
 	}
 	return false
+}
+
+func getJWT(w http.ResponseWriter, r *http.Request) string {
+	authorizationHeader := r.Header.Get("Authorization")
+	s := strings.Split(authorizationHeader, " ")
+	fmt.Printf("%v", s)
+	if len(s) < 2 || s[0] != "Bearer" {
+		return ""
+	}
+	return s[1]
 }
 
 // main function to boot up everything
