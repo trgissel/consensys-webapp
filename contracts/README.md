@@ -1,6 +1,6 @@
 # Smart Contracts
 
-## Pre-requisite
+## Prerequisite
 
 * install `solc` or `solcjs` to compile the contracts. See [Solidarity Documention](https://solidity.readthedocs.io/en/latest/installing-solidity.html#binary-packages)
 * install go etherium binaries `geth` and `abigen`.  Installastion instructions can be found here [go-ethereum](https://github.com/ethereum/go-ethereum)
