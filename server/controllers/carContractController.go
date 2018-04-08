@@ -12,5 +12,7 @@ func EthereumClientConnect() {
 	_, err := ethclient.Dial("http://172.13.0.3:8545")
 	if err != nil {
 		fmt.Println("Failed to connect to the Ethereum client: %v", err)
+	} else {
+		fmt.Println("Connected!")
 	}
 }
