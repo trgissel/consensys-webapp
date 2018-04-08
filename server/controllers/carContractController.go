@@ -1,17 +1,16 @@
 package controllers
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-const key = `paste the contents of your *testnet* key json here`
-
-func Connect() {
+func EthereumClientConnect() {
 	// Create an IPC based RPC connection to a remote node and an authorized transactor
-	_, err := ethclient.Dial("/home/karalabe/.ethereum/testnet/geth.ipc")
+	//TODO: pass in via config
+	_, err := ethclient.Dial("http://172.13.0.3:8545")
 	if err != nil {
-		log.Fatal("Failed to connect to the Ethereum client: %v", err)
+		fmt.Println("Failed to connect to the Ethereum client: %v", err)
 	}
 }
