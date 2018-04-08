@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"./controllers"
 	"./models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
@@ -60,6 +61,7 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
 	}
+	controllers.Connect()
 	var contract CarContract
 	// _ = json.NewDecoder(req.Body).Decode(&contract)
 	contract.ID = generateUUID()
