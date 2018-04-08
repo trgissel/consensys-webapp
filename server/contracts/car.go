@@ -13,18 +13,18 @@ import (
 )
 
 // CarABI is the input ABI used to generate the binding from.
-const CarABI = "[{\"inputs\":[{\"name\":\"_manufature\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
+const CarABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"setEmmisionInspectionsId\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"isScrapped\",\"type\":\"bool\"}],\"name\":\"setScrapped\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"setSafetyInspectionsId\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"inPrimaryName\",\"type\":\"bytes32\"},{\"name\":\"inSecondaryName\",\"type\":\"bytes32\"},{\"name\":\"inOwnerAddress\",\"type\":\"address\"}],\"name\":\"changeOwners\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"inManufature\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
 
 // CarBin is the compiled bytecode used for deploying new contracts.
-const CarBin = `60606040523415600e57600080fd5b604051610122380380610122833981016040528080518201919050508060009080519060200190603e9291906044565b505060df565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f10608357805160ff191683800117855560ae565b8280016001018555821560ae579182015b8281111560ad5782518255916020019190600101906094565b5b50905060b9919060bd565b5090565b60dc91905b8082111560d857600081600090555060010160c2565b5090565b90565b6035806100ed6000396000f3006060604052600080fd00a165627a7a72305820c3f69cf8649dbc8315fa752a713b29c55c7320bdd0414cd86915dc816d93c2410029`
+const CarBin = `6060604052341561000f57600080fd5b60405160208061040683398101604052808051906020019091905050806000816000191690555033600360020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505061037c8061008a6000396000f300606060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632f37a0b51461006757806389a1e5d11461008e578063b4212b5d146100b3578063b5705da4146100da575b600080fd5b341561007257600080fd5b61008c60048080356000191690602001909190505061012d565b005b341561009957600080fd5b6100b16004808035151590602001909190505061019d565b005b34156100be57600080fd5b6100d860048080356000191690602001909190505061021a565b005b34156100e557600080fd5b61012b6004808035600019169060200190919080356000191690602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061028b565b005b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561018c5761019a565b806001800181600019169055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156101fc57610217565b80600660006101000a81548160ff0219169083151502179055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561027957610288565b80600160000181600019169055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156102ea5761034b565b8260036000018160001916905550816003600101816000191690555080600360020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b5050505600a165627a7a723058201c569b2e0c137f6cfae2b4488f4ff97a2f12cabd2c302c860c04b25e276725a80029`
 
 // DeployCar deploys a new Ethereum contract, binding an instance of Car to it.
-func DeployCar(auth *bind.TransactOpts, backend bind.ContractBackend, _manufature string) (common.Address, *types.Transaction, *Car, error) {
+func DeployCar(auth *bind.TransactOpts, backend bind.ContractBackend, inManufature [32]byte) (common.Address, *types.Transaction, *Car, error) {
 	parsed, err := abi.JSON(strings.NewReader(CarABI))
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
-	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(CarBin), backend, _manufature)
+	address, tx, contract, err := bind.DeployContract(auth, parsed, common.FromHex(CarBin), backend, inManufature)
 	if err != nil {
 		return common.Address{}, nil, nil, err
 	}
@@ -171,4 +171,88 @@ func (_Car *CarTransactorRaw) Transfer(opts *bind.TransactOpts) (*types.Transact
 // Transact invokes the (paid) contract method with params as input values.
 func (_Car *CarTransactorRaw) Transact(opts *bind.TransactOpts, method string, params ...interface{}) (*types.Transaction, error) {
 	return _Car.Contract.contract.Transact(opts, method, params...)
+}
+
+// ChangeOwners is a paid mutator transaction binding the contract method 0xb5705da4.
+//
+// Solidity: function changeOwners(inPrimaryName bytes32, inSecondaryName bytes32, inOwnerAddress address) returns()
+func (_Car *CarTransactor) ChangeOwners(opts *bind.TransactOpts, inPrimaryName [32]byte, inSecondaryName [32]byte, inOwnerAddress common.Address) (*types.Transaction, error) {
+	return _Car.contract.Transact(opts, "changeOwners", inPrimaryName, inSecondaryName, inOwnerAddress)
+}
+
+// ChangeOwners is a paid mutator transaction binding the contract method 0xb5705da4.
+//
+// Solidity: function changeOwners(inPrimaryName bytes32, inSecondaryName bytes32, inOwnerAddress address) returns()
+func (_Car *CarSession) ChangeOwners(inPrimaryName [32]byte, inSecondaryName [32]byte, inOwnerAddress common.Address) (*types.Transaction, error) {
+	return _Car.Contract.ChangeOwners(&_Car.TransactOpts, inPrimaryName, inSecondaryName, inOwnerAddress)
+}
+
+// ChangeOwners is a paid mutator transaction binding the contract method 0xb5705da4.
+//
+// Solidity: function changeOwners(inPrimaryName bytes32, inSecondaryName bytes32, inOwnerAddress address) returns()
+func (_Car *CarTransactorSession) ChangeOwners(inPrimaryName [32]byte, inSecondaryName [32]byte, inOwnerAddress common.Address) (*types.Transaction, error) {
+	return _Car.Contract.ChangeOwners(&_Car.TransactOpts, inPrimaryName, inSecondaryName, inOwnerAddress)
+}
+
+// SetEmmisionInspectionsId is a paid mutator transaction binding the contract method 0x2f37a0b5.
+//
+// Solidity: function setEmmisionInspectionsId(id bytes32) returns()
+func (_Car *CarTransactor) SetEmmisionInspectionsId(opts *bind.TransactOpts, id [32]byte) (*types.Transaction, error) {
+	return _Car.contract.Transact(opts, "setEmmisionInspectionsId", id)
+}
+
+// SetEmmisionInspectionsId is a paid mutator transaction binding the contract method 0x2f37a0b5.
+//
+// Solidity: function setEmmisionInspectionsId(id bytes32) returns()
+func (_Car *CarSession) SetEmmisionInspectionsId(id [32]byte) (*types.Transaction, error) {
+	return _Car.Contract.SetEmmisionInspectionsId(&_Car.TransactOpts, id)
+}
+
+// SetEmmisionInspectionsId is a paid mutator transaction binding the contract method 0x2f37a0b5.
+//
+// Solidity: function setEmmisionInspectionsId(id bytes32) returns()
+func (_Car *CarTransactorSession) SetEmmisionInspectionsId(id [32]byte) (*types.Transaction, error) {
+	return _Car.Contract.SetEmmisionInspectionsId(&_Car.TransactOpts, id)
+}
+
+// SetSafetyInspectionsId is a paid mutator transaction binding the contract method 0xb4212b5d.
+//
+// Solidity: function setSafetyInspectionsId(id bytes32) returns()
+func (_Car *CarTransactor) SetSafetyInspectionsId(opts *bind.TransactOpts, id [32]byte) (*types.Transaction, error) {
+	return _Car.contract.Transact(opts, "setSafetyInspectionsId", id)
+}
+
+// SetSafetyInspectionsId is a paid mutator transaction binding the contract method 0xb4212b5d.
+//
+// Solidity: function setSafetyInspectionsId(id bytes32) returns()
+func (_Car *CarSession) SetSafetyInspectionsId(id [32]byte) (*types.Transaction, error) {
+	return _Car.Contract.SetSafetyInspectionsId(&_Car.TransactOpts, id)
+}
+
+// SetSafetyInspectionsId is a paid mutator transaction binding the contract method 0xb4212b5d.
+//
+// Solidity: function setSafetyInspectionsId(id bytes32) returns()
+func (_Car *CarTransactorSession) SetSafetyInspectionsId(id [32]byte) (*types.Transaction, error) {
+	return _Car.Contract.SetSafetyInspectionsId(&_Car.TransactOpts, id)
+}
+
+// SetScrapped is a paid mutator transaction binding the contract method 0x89a1e5d1.
+//
+// Solidity: function setScrapped(isScrapped bool) returns()
+func (_Car *CarTransactor) SetScrapped(opts *bind.TransactOpts, isScrapped bool) (*types.Transaction, error) {
+	return _Car.contract.Transact(opts, "setScrapped", isScrapped)
+}
+
+// SetScrapped is a paid mutator transaction binding the contract method 0x89a1e5d1.
+//
+// Solidity: function setScrapped(isScrapped bool) returns()
+func (_Car *CarSession) SetScrapped(isScrapped bool) (*types.Transaction, error) {
+	return _Car.Contract.SetScrapped(&_Car.TransactOpts, isScrapped)
+}
+
+// SetScrapped is a paid mutator transaction binding the contract method 0x89a1e5d1.
+//
+// Solidity: function setScrapped(isScrapped bool) returns()
+func (_Car *CarTransactorSession) SetScrapped(isScrapped bool) (*types.Transaction, error) {
+	return _Car.Contract.SetScrapped(&_Car.TransactOpts, isScrapped)
 }
