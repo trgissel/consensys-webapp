@@ -7,5 +7,6 @@
 * ~~ensure identity on routes~~~
   * ~~Return Forbidden if JWT not supplied~~
 * interact with blockchain network via IBFT
+  * ~~connect to IBFT blockchain~~
 * Refactor code to more readable layout
 * add unit tests

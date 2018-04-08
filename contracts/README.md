@@ -15,5 +15,5 @@
   solcjs --abi Car.sol
 ```
 
-* generate the go bindings via: `abigen --sol Car.sol --pkg contracts --out car.go`
+* generate the go bindings via: `abigen --abi Car_sol_Car.abi  --pkg contracts -type Car -out car.go --bin Car_sol_Car.bin`
 * copy `car.go` to the server/controller directory: `cp car.go ../server/contracts/`
