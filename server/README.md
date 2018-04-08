@@ -2,6 +2,10 @@
 
 ## BUILD
 
+## Prerequisite
+
+Follow the BUILD AND DEPLOY steps found at in the contract [README.md](../contracts/README.md)
+
 ### ENV SETUP
 
 * cd into server directory

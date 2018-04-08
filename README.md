@@ -5,7 +5,7 @@ App is made up of two parts:
 * Smart Contracts (language: Solidity). Refer to [contracts/README](contracts/README.md) for more information
 * Backend API Server (language: GO).  Refer to [server/README](server/README.md) for more information
 
-## Pre-requisite
+## Prerequisite
 
 This repository depends on the following repository to be cloned and reside next to it:
 
