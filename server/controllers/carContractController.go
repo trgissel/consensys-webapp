@@ -59,5 +59,6 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (stri
 	if token == nil {
 		log.Fatalf("Unable to retrieve token")
 	}
-	return hex.EncodeToString(address[:]), tx.Hash().String(), nil
+	var addressHex = "0x" + hex.EncodeToString(address[:])
+	return addressHex, tx.Hash().String(), nil
 }
