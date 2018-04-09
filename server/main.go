@@ -63,7 +63,7 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
 	}
-	controllers.EthereumClientConnect(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passcode)
+	controllers.CreateCarContract(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase)
 	var contract CarContract
 	// _ = json.NewDecoder(req.Body).Decode(&contract)
 	contract.ID = generateUUID()

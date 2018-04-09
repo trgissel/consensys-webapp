@@ -20,6 +20,11 @@ Perfom the Build and Deploy cycle whenever changes are made to the `Car.sol` fil
 
 * generate the go bindings via: `abigen --abi Car_sol_Car.abi  --pkg contracts -type Car -out car.go --bin Car_sol_Car.bin`
 
+* copy `car.go` to `../server/contracts/`
+
+```shell
+cp car.go ../server/contracts/
+```
 
 ### DEPLOY
 
