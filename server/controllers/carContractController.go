@@ -71,5 +71,5 @@ func GetCarMileage(car *contracts.Car) (string, error) {
 		log.Fatalf("Failed to get mileage: %v", err)
 		return "-1", err
 	}
-	return strconv.FormatUint(miles, 64), nil
+	return strconv.FormatUint(miles, 10), nil
 }
