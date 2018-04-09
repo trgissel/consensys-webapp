@@ -9,5 +9,6 @@
 * interact with blockchain network via IBFT
   * ~~connect to IBFT blockchain~~
   * ~~create Transactor~~
+  * ~~deploy Car Contract~
 * Refactor code to more readable layout
 * add unit tests
