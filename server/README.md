@@ -21,6 +21,11 @@ Follow the BUILD AND DEPLOY steps found at in the contract [README.md](../contra
 
 * run: `go build`
 
+### Update Config
+
+* replace `UTC--2018-04-08T17-15-15.170695379Z--8554b0ff3d16f31b6e37c0c4d442b0aad6bbea07` file with valid keystore for account
+* update the values in `ethereumConfig.json` to the appropraite values
+
 ## USAGE
 
 Login is required before use of non-login rest endpoints.
