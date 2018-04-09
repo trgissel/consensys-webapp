@@ -9,8 +9,9 @@ import (
 
 // EthereumConfig is external
 type EthereumConfig struct {
-	URL     string `json:"nodeURL"`
-	Account string `json:"account"`
+	URL          string `json:"nodeURL"`
+	KeyStorePath string `json:"keyStorePath"`
+	Passcode     string `json:"passcode"`
 }
 
 // LoadEthereumConfig return EthereumConfig

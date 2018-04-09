@@ -1,4 +1,5 @@
 {
     "nodeURL" : "http://172.13.0.3:8545",
-    "account" : "0x8554b0ff3d16f31b6e37c0c4d442b0aad6bbea07"
+    "keyStorePath" : "./UTC--2018-04-08T17-15-15.170695379Z--8554b0ff3d16f31b6e37c0c4d442b0aad6bbea07",
+    "passcode": "tom"
 }
