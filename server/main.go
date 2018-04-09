@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"./controllers"
+	"./internal"
 	"./models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/mux"
@@ -25,6 +26,7 @@ type CarContract struct {
 
 var contracts []CarContract
 var usernames []string
+var ethereumConfig internal.EthereumConfig
 
 func generateUUID() string {
 	b := make([]byte, 16)
@@ -61,7 +63,7 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
 	}
-	controllers.EthereumClientConnect()
+	controllers.EthereumClientConnect(ethereumConfig.URL)
 	var contract CarContract
 	// _ = json.NewDecoder(req.Body).Decode(&contract)
 	contract.ID = generateUUID()
@@ -178,6 +180,7 @@ func getJWT(w http.ResponseWriter, r *http.Request) string {
 
 // main function to boot up everything
 func main() {
+	ethereumConfig = internal.LoadEthereumConfig("./ethereumConfig.json")
 	router := mux.NewRouter()
 	router.HandleFunc("/login", login).Methods("POST")
 	router.HandleFunc("/contract", createContractEndpoint).Methods("POST")

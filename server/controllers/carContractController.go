@@ -6,10 +6,11 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
-func EthereumClientConnect() {
+// EthereumClientConnect url should be in the form of "http://172.13.0.3:8545"
+func EthereumClientConnect(url string) {
 	// Create an IPC based RPC connection to a remote node and an authorized transactor
-	//TODO: pass in via config
-	_, err := ethclient.Dial("http://172.13.0.3:8545")
+	fmt.Println("attempting to connect to %s", url)
+	_, err := ethclient.Dial(url)
 	if err != nil {
 		fmt.Println("Failed to connect to the Ethereum client: %v", err)
 	} else {
