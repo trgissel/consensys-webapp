@@ -18,6 +18,7 @@ contract Car {
     Inspections _inspections;
     Owners _owners;
     bool _scrapped;
+    uint64 _miles;
     
     /// Create a new car with manufacture
     function Car(bytes32 inManufature) public {
@@ -60,5 +61,14 @@ contract Car {
          }
          
         _scrapped = isScrapped;
+    }
+
+    function addMiles(uint32 milesToAdd) public {
+        _miles = _miles + milesToAdd;
+    }
+    
+    function getMiles() public view
+            returns (uint64 miles){
+        miles = _miles;
     }
 }

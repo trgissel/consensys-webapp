@@ -11,7 +11,7 @@ import (
 type EthereumConfig struct {
 	URL          string `json:"nodeURL"`
 	KeyStorePath string `json:"keyStorePath"`
-	Passcode     string `json:"passcode"`
+	Passphrase   string `json:"passphrase"`
 }
 
 // LoadEthereumConfig return EthereumConfig

@@ -63,11 +63,14 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
 	}
-	controllers.EthereumClientConnect(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passcode)
-	var contract CarContract
-	// _ = json.NewDecoder(req.Body).Decode(&contract)
-	contract.ID = generateUUID()
-	contracts = append(contracts, contract)
+	address, hash, err := controllers.CreateCarContract(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase)
+	if err != nil {
+		http.Error(w, "Internal Error", http.StatusInternalServerError)
+		return
+	}
+	var contract models.DeployContractTransaction
+	contract.Address = address
+	contract.TransactionID = hash
 	json.NewEncoder(w).Encode(contract)
 }
 
