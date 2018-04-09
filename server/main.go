@@ -16,15 +16,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-// mock contract
-type CarContract struct {
-	ID                     string   `json:"id,omitempty"`
-	Manufacture            string   `json:"manufacture,omitempty"`
-	EmissionsCertification string   `json:"firstname,omitempty"`
-	Owners                 []string `json:"lastname,omitempty"`
-}
-
-var contracts []CarContract
+var contracts []models.DeployContractTransaction
 var usernames []string
 var ethereumConfig internal.EthereumConfig
 
@@ -51,7 +43,7 @@ func getContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	}
 	params := mux.Vars(req)
 	for _, item := range contracts {
-		if item.ID == params["id"] {
+		if item.Address == params["id"] {
 			json.NewEncoder(w).Encode(item)
 			return
 		}
@@ -71,30 +63,13 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	var contract models.DeployContractTransaction
 	contract.Address = address
 	contract.TransactionID = hash
+	contracts = append(contracts, contract)
 	json.NewEncoder(w).Encode(contract)
 }
 
 func createContractEndpointWithID(w http.ResponseWriter, req *http.Request) {
-	if !authenticate(w, req) {
-		return
-	}
-	params := mux.Vars(req)
-	var contract CarContract
-	// _ = json.NewDecoder(req.Body).Decode(&contract)
-	contract.ID = params["id"]
-	var foundDup = false
-	for _, item := range contracts {
-		if item.ID == contract.ID {
-			foundDup = true
-			break
-		}
-	}
-	if foundDup {
-		http.Error(w, "Conflict", http.StatusConflict)
-	} else {
-		contracts = append(contracts, contract)
-		json.NewEncoder(w).Encode(contract)
-	}
+	// do not allow POSTing for tx
+	http.Error(w, "Forbidden", http.StatusForbidden)
 }
 
 var mySigningKey = []byte("secret")
