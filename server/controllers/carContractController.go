@@ -57,7 +57,7 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (comm
 	}
 	fmt.Printf("Contract pending deploy: 0x%x\n", address)
 	fmt.Printf("Transaction waiting to be mined: 0x%x\n\n", tx.Hash())
-	if token != nil {
+	if token == nil {
 		log.Fatalf("Unable to retrieve token")
 	}
 	return address, tx.Hash(), nil
