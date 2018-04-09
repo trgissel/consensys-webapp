@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"../contracts"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -35,7 +36,7 @@ func EthereumClientConnect(url string, keystorePath string, passphrase string) (
 }
 
 // CreateCarContract return tx and address
-func CreateCarContract(url string, keystorePath string, passphrase string) (string, string, error) {
+func CreateCarContract(url string, keystorePath string, passphrase string) (string, string, *contracts.Car, error) {
 	conn, auth, err := EthereumClientConnect(url, keystorePath, passphrase)
 
 	var defaultAddress string
@@ -43,22 +44,32 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (stri
 
 	if err != nil {
 		log.Fatalf("unable to connect to ethereum network: %v", err)
-		return defaultAddress, defaultHash, err
+		return defaultAddress, defaultHash, nil, err
 	}
 	// Deploy a new awesome contract for the binding demo
 	s := "BMW"
 	var manufacture [32]byte
 	copy(manufacture[:], s)
-	address, tx, token, err := contracts.DeployCar(auth, conn, manufacture)
+	address, tx, car, err := contracts.DeployCar(auth, conn, manufacture)
 	if err != nil {
 		log.Fatalf("Failed to deploy new token contract: %v", err)
-		return defaultAddress, defaultHash, err
+		return defaultAddress, defaultHash, nil, err
 	}
 	fmt.Printf("Contract pending deploy: 0x%x\n", address)
 	fmt.Printf("Transaction waiting to be mined: 0x%x\n\n", tx.Hash())
-	if token == nil {
-		log.Fatalf("Unable to retrieve token")
+	if car == nil {
+		log.Fatalf("Unable to retrieve car token")
 	}
 	var addressHex = "0x" + hex.EncodeToString(address[:])
-	return addressHex, tx.Hash().String(), nil
+	return addressHex, tx.Hash().String(), car, nil
+}
+
+// GetCarMileage return mileage
+func GetCarMileage(car *contracts.Car) (string, error) {
+	miles, err := car.GetMiles(&bind.CallOpts{Pending: true})
+	if err != nil {
+		log.Fatalf("Failed to get mileage: %v", err)
+		return "-1", err
+	}
+	return strconv.FormatUint(miles, 10), nil
 }

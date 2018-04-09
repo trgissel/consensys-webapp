@@ -1,13 +1,15 @@
 package main
 
 import (
-	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
+
+	"./contracts"
 
 	"./controllers"
 	"./internal"
@@ -16,25 +18,17 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var contracts []models.DeployContractTransaction
+var contractList []models.DeployContractTransaction
 var usernames []string
 var ethereumConfig internal.EthereumConfig
 
-func generateUUID() string {
-	b := make([]byte, 16)
-	_, err := rand.Read(b)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return fmt.Sprintf("%x-%x-%x-%x-%x",
-		b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
-}
+var addressToCar = make(map[string]*contracts.Car)
 
 func getContractsEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
 	}
-	json.NewEncoder(w).Encode(contracts)
+	json.NewEncoder(w).Encode(contractList)
 }
 
 func getContractEndpoint(w http.ResponseWriter, req *http.Request) {
@@ -42,7 +36,7 @@ func getContractEndpoint(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	params := mux.Vars(req)
-	for _, item := range contracts {
+	for _, item := range contractList {
 		if item.Address == params["id"] {
 			json.NewEncoder(w).Encode(item)
 			return
@@ -55,7 +49,7 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
 	}
-	address, hash, err := controllers.CreateCarContract(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase)
+	address, hash, car, err := controllers.CreateCarContract(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase)
 	if err != nil {
 		http.Error(w, "Internal Error", http.StatusInternalServerError)
 		return
@@ -63,13 +57,38 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 	var contract models.DeployContractTransaction
 	contract.Address = address
 	contract.TransactionID = hash
-	contracts = append(contracts, contract)
+	contractList = append(contractList, contract)
+	addressToCar[address] = car
 	json.NewEncoder(w).Encode(contract)
 }
 
 func createContractEndpointWithID(w http.ResponseWriter, req *http.Request) {
 	// do not allow POSTing for tx
 	http.Error(w, "Forbidden", http.StatusForbidden)
+}
+
+func getMileage(w http.ResponseWriter, req *http.Request) {
+	if !authenticate(w, req) {
+		return
+	}
+	params := mux.Vars(req)
+	addresss := params["id"]
+	car, ok := addressToCar[addresss]
+	if !ok {
+		http.Error(w, "Not Found", http.StatusNotFound)
+		return
+	}
+	mileage, err := controllers.GetCarMileage(car)
+	if err != nil {
+		http.Error(w, "Server Error", http.StatusInternalServerError)
+		return
+	}
+	mileageI, err := strconv.ParseInt(mileage, 10, 64)
+	if err != nil {
+		http.Error(w, "Server Error converting mileage to int", http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(mileageI)
 }
 
 var mySigningKey = []byte("secret")
@@ -165,5 +184,6 @@ func main() {
 	router.HandleFunc("/contract", getContractsEndpoint).Methods("GET")
 	router.HandleFunc("/contract/{id}", createContractEndpointWithID).Methods("POST")
 	router.HandleFunc("/contract/{id}", getContractEndpoint).Methods("GET")
+	router.HandleFunc("/contract/{id}/mileage", getMileage).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }

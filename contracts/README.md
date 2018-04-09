@@ -28,7 +28,7 @@ cp car.go ../server/contracts/
 
 ### DEPLOY
 
-* If you don't have an ethereum account on target then network create one
+* If you don't have an ethereum account on target network then create one
   * See [Managing your accounts](https://github.com/ethereum/go-ethereum/wiki/Managing-your-accounts) for more information
 * Deploy Car Smart Contract, see [How To: Deploy Smart Contracts Onto The Ethereum Blockchain](https://medium.com/mercuryprotocol/dev-highlights-of-this-week-cb33e58c745f)
 
