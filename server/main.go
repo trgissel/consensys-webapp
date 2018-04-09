@@ -69,8 +69,8 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	var contract models.DeployContractTransaction
-	copy(contract.Address[:], address[:])
-	copy(contract.TransactionID[:], hash[:])
+	contract.Address = address
+	contract.TransactionID = hash
 	json.NewEncoder(w).Encode(contract)
 }
 

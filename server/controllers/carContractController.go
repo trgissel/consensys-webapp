@@ -1,11 +1,10 @@
 package controllers
 
 import (
+	"encoding/hex"
 	"fmt"
 	"log"
 	"os"
-
-	"github.com/ethereum/go-ethereum/common"
 
 	"../contracts"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -36,11 +35,11 @@ func EthereumClientConnect(url string, keystorePath string, passphrase string) (
 }
 
 // CreateCarContract return tx and address
-func CreateCarContract(url string, keystorePath string, passphrase string) (common.Address, common.Hash, error) {
+func CreateCarContract(url string, keystorePath string, passphrase string) (string, string, error) {
 	conn, auth, err := EthereumClientConnect(url, keystorePath, passphrase)
 
-	var defaultAddress common.Address
-	var defaultHash common.Hash
+	var defaultAddress string
+	var defaultHash string
 
 	if err != nil {
 		log.Fatalf("unable to connect to ethereum network: %v", err)
@@ -60,5 +59,5 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (comm
 	if token == nil {
 		log.Fatalf("Unable to retrieve token")
 	}
-	return address, tx.Hash(), nil
+	return hex.EncodeToString(address[:]), tx.Hash().String(), nil
 }
