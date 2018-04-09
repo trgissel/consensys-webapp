@@ -24,6 +24,11 @@ var ethereumConfig internal.EthereumConfig
 
 var addressToCar = make(map[string]*contracts.Car)
 
+// MilesWrapper for parsing body
+type MilesWrapper struct {
+	miles uint32
+}
+
 func getContractsEndpoint(w http.ResponseWriter, req *http.Request) {
 	if !authenticate(w, req) {
 		return
@@ -89,6 +94,29 @@ func getMileage(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(mileageI)
+}
+
+func addMileage(w http.ResponseWriter, req *http.Request) {
+	if !authenticate(w, req) {
+		return
+	}
+	params := mux.Vars(req)
+	addresss := params["id"]
+
+	decoder := json.NewDecoder(req.Body)
+	var milesWrapper MilesWrapper
+	err := decoder.Decode(&milesWrapper)
+	if err != nil {
+		http.Error(w, "please provide the miles to add in the body", http.StatusBadRequest)
+		return
+	}
+
+	txID, err := controllers.AddCarMiles(addresss, milesWrapper.miles)
+	if err != nil {
+		http.Error(w, "Server Error", http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(txID)
 }
 
 var mySigningKey = []byte("secret")
@@ -185,5 +213,6 @@ func main() {
 	router.HandleFunc("/contract/{id}", createContractEndpointWithID).Methods("POST")
 	router.HandleFunc("/contract/{id}", getContractEndpoint).Methods("GET")
 	router.HandleFunc("/contract/{id}/mileage", getMileage).Methods("GET")
+	router.HandleFunc("/contract/{id}/mileage", addMileage).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
