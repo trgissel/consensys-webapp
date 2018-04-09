@@ -68,7 +68,7 @@ func createContractEndpoint(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Internal Error", http.StatusInternalServerError)
 		return
 	}
-	var contract models.CarContractTransaction
+	var contract models.DeployContractTransaction
 	copy(contract.Address[:], address[:])
 	copy(contract.TransactionID[:], hash[:])
 	json.NewEncoder(w).Encode(contract)
