@@ -22,7 +22,7 @@ func GetTransactionDetails(url string, keystorePath string, passphrase string, t
 	txHash := common.HexToHash(txHashString)
 	tx, _, err := conn.TransactionByHash(context.TODO(), txHash)
 	if err != nil {
-		log.Fatalf("Failed to find transaction by hash: %v", err)
+		log.Printf("Failed to find transaction by hash: %v\n", err)
 		return txDetails, errors.New("404")
 	}
 	txDetails.GasUsed = int(tx.Gas())

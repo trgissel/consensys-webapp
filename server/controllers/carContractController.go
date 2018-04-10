@@ -19,20 +19,20 @@ var addressToSession = make(map[string]*contracts.CarSession)
 func EthereumClientConnect(url string, keystorePath string, passphrase string) (*ethclient.Client, *bind.TransactOpts, error) {
 	file, err := os.Open(keystorePath)
 	if err != nil {
-		fmt.Println("Failed to open keystore file: %v", err)
+		log.Printf("Failed to open keystore file: %v\n", err)
 		return nil, nil, err
 	}
 	// Create an IPC based RPC connection to a remote node and an authorized transactor
 	fmt.Println("attempting to connect to ", url)
 	conn, err1 := ethclient.Dial(url)
 	if err1 != nil {
-		fmt.Println("Failed to connect to the Ethereum client: %v", err1)
+		log.Printf("Failed to connect to the Ethereum client: %v\n", err1)
 		return nil, nil, err1
 	}
-	fmt.Println("Connected!")
+	log.Println("Connected!")
 	auth, err2 := bind.NewTransactor(file, passphrase)
 	if err2 != nil {
-		log.Fatalf("Failed to create authorized transactor: %v", err2)
+		log.Printf("Failed to create authorized transactor: %v\n", err2)
 		return nil, nil, err2
 	}
 	return conn, auth, nil
@@ -46,7 +46,7 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (stri
 	var defaultHash string
 
 	if err != nil {
-		log.Fatalf("unable to connect to ethereum network: %v", err)
+		log.Printf("unable to connect to ethereum network: %v\n", err)
 		return defaultAddress, defaultHash, nil, err
 	}
 	// Deploy a new awesome contract for the binding demo
@@ -55,13 +55,13 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (stri
 	copy(manufacture[:], s)
 	address, tx, car, err := contracts.DeployCar(auth, conn, manufacture)
 	if err != nil {
-		log.Fatalf("Failed to deploy new token contract: %v", err)
+		log.Printf("Failed to deploy new token contract: %v\n", err)
 		return defaultAddress, defaultHash, nil, err
 	}
-	fmt.Printf("Contract pending deploy: 0x%x\n", address)
-	fmt.Printf("Transaction waiting to be mined: 0x%x\n\n", tx.Hash())
+	log.Printf("Contract pending deploy: 0x%x\n", address)
+	log.Printf("Transaction waiting to be mined: 0x%x\n", tx.Hash())
 	if car == nil {
-		log.Fatalf("Unable to retrieve car token")
+		log.Println("Unable to retrieve car token")
 	}
 	var addressHex = "0x" + hex.EncodeToString(address[:])
 	session := &contracts.CarSession{
