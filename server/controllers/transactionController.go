@@ -20,11 +20,9 @@ func GetTransactionDetails(url string, txHashString string) (TransactionDetails,
 	var txDetails TransactionDetails
 	txHash := common.HexToHash(txHashString)
 	client, err := ethclient.Dial(url)
-	var (
-		ctx    context.Context
-		cancel context.CancelFunc
-	)
-	ctx, cancel = context.WithTimeout(context.Background(), 1*time.Minute)
+	d := time.Now().Add(1000 * time.Millisecond)
+	ctx, cancel := context.WithDeadline(context.Background(), d)
+	defer cancel()
 	tx, _, err := client.TransactionByHash(ctx, txHash)
 	if err != nil {
 		log.Fatalf("Failed to find transaction by hash: %v", err)
