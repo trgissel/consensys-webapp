@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -11,6 +12,8 @@ import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
+
+var addressToSession = make(map[string]*contracts.CarSession)
 
 // EthereumClientConnect url should be in the form of "http://172.13.0.3:8545"
 func EthereumClientConnect(url string, keystorePath string, passphrase string) (*ethclient.Client, *bind.TransactOpts, error) {
@@ -61,6 +64,17 @@ func CreateCarContract(url string, keystorePath string, passphrase string) (stri
 		log.Fatalf("Unable to retrieve car token")
 	}
 	var addressHex = "0x" + hex.EncodeToString(address[:])
+	session := &contracts.CarSession{
+		Contract: car,
+		CallOpts: bind.CallOpts{
+			Pending: true,
+		},
+		TransactOpts: bind.TransactOpts{
+			From:   auth.From,
+			Signer: auth.Signer,
+		},
+	}
+	addressToSession[addressHex] = session
 	return addressHex, tx.Hash().String(), car, nil
 }
 
@@ -72,4 +86,22 @@ func GetCarMileage(car *contracts.Car) (string, error) {
 		return "-1", err
 	}
 	return strconv.FormatUint(miles, 10), nil
+}
+
+// AddCarMiles return mileage
+func AddCarMiles(address string, miles uint32) (string, error) {
+	var defaultTx string
+	session, ok := addressToSession[address]
+	if !ok {
+		msg := "Unable to find session for supplied address"
+		e := errors.New(msg)
+		log.Fatalf(msg, e)
+		return defaultTx, e
+	}
+	tx, err := session.AddMiles(miles)
+	if err != nil {
+		log.Fatalf("Failed to add mileage: %v", err)
+		return defaultTx, err
+	}
+	return tx.Hash().String(), nil
 }
