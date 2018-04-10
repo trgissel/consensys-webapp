@@ -26,7 +26,7 @@ var addressToCar = make(map[string]*contracts.Car)
 
 // MilesWrapper for parsing body
 type MilesWrapper struct {
-	miles uint32 `json:"miles"`
+	Miles string `json:"miles"`
 }
 
 func getContractsEndpoint(w http.ResponseWriter, req *http.Request) {
@@ -102,7 +102,6 @@ func addMileage(w http.ResponseWriter, req *http.Request) {
 	}
 	params := mux.Vars(req)
 	addresss := params["id"]
-
 	decoder := json.NewDecoder(req.Body)
 	var milesWrapper MilesWrapper
 	err := decoder.Decode(&milesWrapper)
@@ -110,8 +109,9 @@ func addMileage(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "please provide the miles to add in the body", http.StatusBadRequest)
 		return
 	}
-
-	txID, err := controllers.AddCarMiles(addresss, milesWrapper.miles)
+	log.Println("Incoming miles: ", milesWrapper.Miles)
+	miles, err := strconv.ParseUint(milesWrapper.Miles, 10, 32)
+	txID, err := controllers.AddCarMiles(addresss, uint32(miles))
 	if err != nil {
 		http.Error(w, "Server Error", http.StatusInternalServerError)
 		return
