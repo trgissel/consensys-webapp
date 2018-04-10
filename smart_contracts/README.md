@@ -19,7 +19,7 @@ These steps for for testing Car contract with truffle
 * cd into migrations subdirectory: `cd <smart_contracts_dir>/migrations`
 * run `truffle compile`
 
-#### Run Automated Test
+#### Automated Tests
 
 * cd into smart_contracts directory
 * run `truffle test`

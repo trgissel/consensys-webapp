@@ -1,5 +1,5 @@
-var SimpleStorage = artifacts.require("Car");
+var Car = artifacts.require("Car");
 
 module.exports = function(deployer) {
-  deployer.deploy(SimpleStorage, "BMW");
+  deployer.deploy(Car, "BMW");
 };
