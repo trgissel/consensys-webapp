@@ -26,7 +26,7 @@ var addressToCar = make(map[string]*contracts.Car)
 
 // MilesWrapper for parsing body
 type MilesWrapper struct {
-	miles uint32
+	miles uint32 `json:"miles"`
 }
 
 func getContractsEndpoint(w http.ResponseWriter, req *http.Request) {
