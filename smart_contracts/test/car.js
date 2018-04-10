@@ -17,5 +17,23 @@ contract('Car test', async (accounts) => {
     assert.ok(afterMiles > beforeMiles);
   })
 
+  it("should set setEmmisionInspectionsId", async () => {
+    let instance = await Car.deployed();
+    let tx = await instance.setEmmisionInspectionsId("123abc");
+    assert.ok(tx)
+  })
+
+
+  it("should set setSafetyInspectionsId", async () => {
+    let instance = await Car.deployed();
+    let tx = await instance.setSafetyInspectionsId("456def");
+    assert.ok(tx)
+  })
+
+  it("should set setScrapped", async () => {
+    let instance = await Car.deployed();
+    let tx = await instance.setScrapped(true)
+    assert.ok(tx)
+  })
 })
 
