@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
@@ -24,7 +25,7 @@ func GetTransactionDetails(url string, txHashString string) (TransactionDetails,
 	tx, _, err := client.TransactionByHash(ctx, txHash)
 	if err != nil {
 		log.Fatalf("Failed to find transaction by hash: %v", err)
-		return txDetails, err
+		return txDetails, errors.New("404")
 	}
 	txDetails.GasUsed = int(tx.Gas())
 	return txDetails, nil
