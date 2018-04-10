@@ -125,7 +125,7 @@ func getTransactionDetails(w http.ResponseWriter, req *http.Request) {
 	}
 	params := mux.Vars(req)
 	transactionHash := params["id"]
-	transactionDetails, err := controllers.GetTransactionDetails(ethereumConfig.URL, transactionHash)
+	transactionDetails, err := controllers.GetTransactionDetails(req.Context(), ethereumConfig.URL, transactionHash)
 	if err != nil {
 		if err.Error() == "404" {
 			http.Error(w, "Not Found", http.StatusNotFound)

@@ -18,15 +18,12 @@ type TransactionDetails struct {
 type key int
 
 // GetTransactionDetails get transaction details
-func GetTransactionDetails(url string, txHashString string) (TransactionDetails, error) {
+func GetTransactionDetails(ctx context.Context, url string, txHashString string) (TransactionDetails, error) {
 	var txDetails TransactionDetails
 	txHash := common.HexToHash(txHashString)
 	client, err := ethclient.Dial(url)
 	d := time.Now().Add(1000 * time.Millisecond)
-	ctx, cancel := context.WithDeadline(context.Background(), d)
-	defer cancel()
-	const requestIDKey key = 0
-	ctx2 := context.WithValue(ctx, requestIDKey, txHash)
+	ctx2, cancel := context.WithDeadline(ctx, d)
 	tx, _, err := client.TransactionByHash(ctx2, txHash)
 	if err != nil {
 		cancel()
