@@ -2,7 +2,7 @@
 
 App is made up of two parts:
 
-* Smart Contracts (language: Solidity). Refer to [contracts/README](contracts/README.md) for more information
+* Smart Contracts (language: Solidity). Refer to [smart_contracts/README](smart_contracts/README.md) for more information
 * Backend API Server (language: GO).  Refer to [server/README](server/README.md) for more information
 
 ## Prerequisite
