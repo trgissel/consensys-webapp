@@ -119,6 +119,24 @@ func addMileage(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode(txID)
 }
 
+func getTransactionDetails(w http.ResponseWriter, req *http.Request) {
+	if !authenticate(w, req) {
+		return
+	}
+	params := mux.Vars(req)
+	transactionHash := params["id"]
+	transactionDetails, err := controllers.GetTransactionDetails(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase, transactionHash)
+	if err != nil {
+		if err.Error() == "404" {
+			http.Error(w, "Not Found", http.StatusNotFound)
+			return
+		}
+		http.Error(w, "Internal Error", http.StatusInternalServerError)
+		return
+	}
+	json.NewEncoder(w).Encode(transactionDetails)
+}
+
 var mySigningKey = []byte("secret")
 
 func authenticate(w http.ResponseWriter, req *http.Request) bool {
@@ -214,5 +232,6 @@ func main() {
 	router.HandleFunc("/contract/{id}", getContractEndpoint).Methods("GET")
 	router.HandleFunc("/contract/{id}/mileage", getMileage).Methods("GET")
 	router.HandleFunc("/contract/{id}/mileage", addMileage).Methods("POST")
+	router.HandleFunc("/transaction/{id}", getTransactionDetails).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
