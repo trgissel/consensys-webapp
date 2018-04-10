@@ -10,5 +10,8 @@
   * ~~connect to IBFT blockchain~~
   * ~~create Transactor~~
   * ~~deploy Car Contract~
+  * ~~perform transactions on deployed smart contract~~
+    * ~~getMiles~~
+    * ~~addMiles~~
 * Refactor code to more readable layout
 * add unit tests
