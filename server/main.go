@@ -129,9 +129,9 @@ func getTransactionDetails(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		if err.Error() == "404" {
 			http.Error(w, "Not Found", http.StatusNotFound)
-		} else {
-			http.Error(w, "Internal Error", http.StatusInternalServerError)
+			return
 		}
+		http.Error(w, "Internal Error", http.StatusInternalServerError)
 		return
 	}
 	json.NewEncoder(w).Encode(transactionDetails)
