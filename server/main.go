@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -126,21 +125,7 @@ func getTransactionDetails(w http.ResponseWriter, req *http.Request) {
 	}
 	params := mux.Vars(req)
 	transactionHash := params["id"]
-	var (
-		ctx    context.Context
-		cancel context.CancelFunc
-	)
-	timeout, err := time.ParseDuration(req.FormValue("timeout"))
-	if err == nil {
-		// The request has a timeout, so create a context that is
-		// canceled automatically when the timeout expires.
-		ctx, cancel = context.WithTimeout(context.Background(), timeout)
-	} else {
-		ctx, cancel = context.WithCancel(context.Background())
-	}
-	defer cancel() // Cancel ctx as soon as handleSearch returns.
-
-	transactionDetails, err := controllers.GetTransactionDetails(ctx, ethereumConfig.URL, transactionHash)
+	transactionDetails, err := controllers.GetTransactionDetails(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase, transactionHash)
 	if err != nil {
 		if err.Error() == "404" {
 			http.Error(w, "Not Found", http.StatusNotFound)
