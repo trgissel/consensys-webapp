@@ -22,6 +22,7 @@ These steps for for testing Car contract with truffle
 #### Automated Tests
 
 * cd into smart_contracts directory
+* run `npm i`
 * run `truffle test`
 
 #### Interactive Testing
