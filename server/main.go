@@ -136,6 +136,7 @@ func getTransactionDetails(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Internal Error", http.StatusInternalServerError)
 		return
 	}
+	fmt.Println("no error")
 	json.NewEncoder(w).Encode(transactionDetails)
 }
 
