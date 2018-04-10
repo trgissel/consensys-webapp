@@ -13,10 +13,10 @@ import (
 )
 
 // CarABI is the input ABI used to generate the binding from.
-const CarABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"getMiles\",\"outputs\":[{\"name\":\"miles\",\"type\":\"uint64\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"setEmmisionInspectionsId\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"isScrapped\",\"type\":\"bool\"}],\"name\":\"setScrapped\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"milesToAdd\",\"type\":\"uint32\"}],\"name\":\"addMiles\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"setSafetyInspectionsId\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"inPrimaryName\",\"type\":\"bytes32\"},{\"name\":\"inSecondaryName\",\"type\":\"bytes32\"},{\"name\":\"inOwnerAddress\",\"type\":\"address\"}],\"name\":\"changeOwners\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"inManufature\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
+const CarABI = "[{\"constant\":true,\"inputs\":[],\"name\":\"getMiles\",\"outputs\":[{\"name\":\"miles\",\"type\":\"uint64\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getSafetyInspectionsId\",\"outputs\":[{\"name\":\"safetyId\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"setEmmisionInspectionsId\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"isScrapped\",\"type\":\"bool\"}],\"name\":\"setScrapped\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"milesToAdd\",\"type\":\"uint32\"}],\"name\":\"addMiles\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getScrapped\",\"outputs\":[{\"name\":\"isScrapped\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getEmmisionInspectionsId\",\"outputs\":[{\"name\":\"emmissionsId\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"setSafetyInspectionsId\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"inPrimaryName\",\"type\":\"bytes32\"},{\"name\":\"inSecondaryName\",\"type\":\"bytes32\"},{\"name\":\"inOwnerAddress\",\"type\":\"address\"}],\"name\":\"changeOwners\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"name\":\"inManufature\",\"type\":\"bytes32\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
 
 // CarBin is the compiled bytecode used for deploying new contracts.
-const CarBin = `6060604052341561000f57600080fd5b6040516020806104ea83398101604052808051906020019091905050806000816000191690555033600360020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506104608061008a6000396000f300606060405260043610610078576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063090e195e1461007d5780632f37a0b5146100ba57806389a1e5d1146100e157806394c7cfb814610106578063b4212b5d1461012f578063b5705da414610156575b600080fd5b341561008857600080fd5b6100906101a9565b604051808267ffffffffffffffff1667ffffffffffffffff16815260200191505060405180910390f35b34156100c557600080fd5b6100df6004808035600019169060200190919050506101c7565b005b34156100ec57600080fd5b61010460048080351515906020019091905050610237565b005b341561011157600080fd5b61012d600480803563ffffffff169060200190919050506102b4565b005b341561013a57600080fd5b6101546004808035600019169060200190919050506102fe565b005b341561016157600080fd5b6101a76004808035600019169060200190919080356000191690602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061036f565b005b6000600660019054906101000a900467ffffffffffffffff16905090565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561022657610234565b806001800181600019169055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16141515610296576102b1565b80600660006101000a81548160ff0219169083151502179055505b50565b8063ffffffff16600660019054906101000a900467ffffffffffffffff1601600660016101000a81548167ffffffffffffffff021916908367ffffffffffffffff16021790555050565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561035d5761036c565b80600160000181600019169055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156103ce5761042f565b8260036000018160001916905550816003600101816000191690555080600360020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b5050505600a165627a7a7230582047e0b721a034258d07ac38827cabfa7e151f2c571d4e4b2e90b79a3e6fb4c95c0029`
+const CarBin = `6060604052341561000f57600080fd5b6040516020806105ca83398101604052808051906020019091905050806000816000191690555033600360020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506105408061008a6000396000f300606060405260043610610099576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063090e195e1461009e5780631df8668b146100db5780632f37a0b51461010c57806389a1e5d11461013357806394c7cfb8146101585780639624dfaf14610181578063a6069c53146101ae578063b4212b5d146101df578063b5705da414610206575b600080fd5b34156100a957600080fd5b6100b1610259565b604051808267ffffffffffffffff1667ffffffffffffffff16815260200191505060405180910390f35b34156100e657600080fd5b6100ee610277565b60405180826000191660001916815260200191505060405180910390f35b341561011757600080fd5b610131600480803560001916906020019091905050610284565b005b341561013e57600080fd5b610156600480803515159060200190919050506102f4565b005b341561016357600080fd5b61017f600480803563ffffffff16906020019091905050610371565b005b341561018c57600080fd5b6101946103bb565b604051808215151515815260200191505060405180910390f35b34156101b957600080fd5b6101c16103d2565b60405180826000191660001916815260200191505060405180910390f35b34156101ea57600080fd5b6102046004808035600019169060200190919050506103de565b005b341561021157600080fd5b6102576004808035600019169060200190919080356000191690602001909190803573ffffffffffffffffffffffffffffffffffffffff1690602001909190505061044f565b005b6000600660019054906101000a900467ffffffffffffffff16905090565b6000600160000154905090565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156102e3576102f1565b806001800181600019169055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156103535761036e565b80600660006101000a81548160ff0219169083151502179055505b50565b8063ffffffff16600660019054906101000a900467ffffffffffffffff1601600660016101000a81548167ffffffffffffffff021916908367ffffffffffffffff16021790555050565b6000600660009054906101000a900460ff16905090565b60006001800154905090565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614151561043d5761044c565b80600160000181600019169055505b50565b600360020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161415156104ae5761050f565b8260036000018160001916905550816003600101816000191690555080600360020160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505b5050505600a165627a7a72305820f1754ab5cc4402ae2857ec26bd8623007ce0bc21b16b260b55787e2d714616200029`
 
 // DeployCar deploys a new Ethereum contract, binding an instance of Car to it.
 func DeployCar(auth *bind.TransactOpts, backend bind.ContractBackend, inManufature [32]byte) (common.Address, *types.Transaction, *Car, error) {
@@ -173,6 +173,32 @@ func (_Car *CarTransactorRaw) Transact(opts *bind.TransactOpts, method string, p
 	return _Car.Contract.contract.Transact(opts, method, params...)
 }
 
+// GetEmmisionInspectionsId is a free data retrieval call binding the contract method 0xa6069c53.
+//
+// Solidity: function getEmmisionInspectionsId() constant returns(emmissionsId bytes32)
+func (_Car *CarCaller) GetEmmisionInspectionsId(opts *bind.CallOpts) ([32]byte, error) {
+	var (
+		ret0 = new([32]byte)
+	)
+	out := ret0
+	err := _Car.contract.Call(opts, out, "getEmmisionInspectionsId")
+	return *ret0, err
+}
+
+// GetEmmisionInspectionsId is a free data retrieval call binding the contract method 0xa6069c53.
+//
+// Solidity: function getEmmisionInspectionsId() constant returns(emmissionsId bytes32)
+func (_Car *CarSession) GetEmmisionInspectionsId() ([32]byte, error) {
+	return _Car.Contract.GetEmmisionInspectionsId(&_Car.CallOpts)
+}
+
+// GetEmmisionInspectionsId is a free data retrieval call binding the contract method 0xa6069c53.
+//
+// Solidity: function getEmmisionInspectionsId() constant returns(emmissionsId bytes32)
+func (_Car *CarCallerSession) GetEmmisionInspectionsId() ([32]byte, error) {
+	return _Car.Contract.GetEmmisionInspectionsId(&_Car.CallOpts)
+}
+
 // GetMiles is a free data retrieval call binding the contract method 0x090e195e.
 //
 // Solidity: function getMiles() constant returns(miles uint64)
@@ -197,6 +223,58 @@ func (_Car *CarSession) GetMiles() (uint64, error) {
 // Solidity: function getMiles() constant returns(miles uint64)
 func (_Car *CarCallerSession) GetMiles() (uint64, error) {
 	return _Car.Contract.GetMiles(&_Car.CallOpts)
+}
+
+// GetSafetyInspectionsId is a free data retrieval call binding the contract method 0x1df8668b.
+//
+// Solidity: function getSafetyInspectionsId() constant returns(safetyId bytes32)
+func (_Car *CarCaller) GetSafetyInspectionsId(opts *bind.CallOpts) ([32]byte, error) {
+	var (
+		ret0 = new([32]byte)
+	)
+	out := ret0
+	err := _Car.contract.Call(opts, out, "getSafetyInspectionsId")
+	return *ret0, err
+}
+
+// GetSafetyInspectionsId is a free data retrieval call binding the contract method 0x1df8668b.
+//
+// Solidity: function getSafetyInspectionsId() constant returns(safetyId bytes32)
+func (_Car *CarSession) GetSafetyInspectionsId() ([32]byte, error) {
+	return _Car.Contract.GetSafetyInspectionsId(&_Car.CallOpts)
+}
+
+// GetSafetyInspectionsId is a free data retrieval call binding the contract method 0x1df8668b.
+//
+// Solidity: function getSafetyInspectionsId() constant returns(safetyId bytes32)
+func (_Car *CarCallerSession) GetSafetyInspectionsId() ([32]byte, error) {
+	return _Car.Contract.GetSafetyInspectionsId(&_Car.CallOpts)
+}
+
+// GetScrapped is a free data retrieval call binding the contract method 0x9624dfaf.
+//
+// Solidity: function getScrapped() constant returns(isScrapped bool)
+func (_Car *CarCaller) GetScrapped(opts *bind.CallOpts) (bool, error) {
+	var (
+		ret0 = new(bool)
+	)
+	out := ret0
+	err := _Car.contract.Call(opts, out, "getScrapped")
+	return *ret0, err
+}
+
+// GetScrapped is a free data retrieval call binding the contract method 0x9624dfaf.
+//
+// Solidity: function getScrapped() constant returns(isScrapped bool)
+func (_Car *CarSession) GetScrapped() (bool, error) {
+	return _Car.Contract.GetScrapped(&_Car.CallOpts)
+}
+
+// GetScrapped is a free data retrieval call binding the contract method 0x9624dfaf.
+//
+// Solidity: function getScrapped() constant returns(isScrapped bool)
+func (_Car *CarCallerSession) GetScrapped() (bool, error) {
+	return _Car.Contract.GetScrapped(&_Car.CallOpts)
 }
 
 // AddMiles is a paid mutator transaction binding the contract method 0x94c7cfb8.

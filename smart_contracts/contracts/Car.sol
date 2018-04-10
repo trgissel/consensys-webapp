@@ -35,7 +35,12 @@ contract Car {
         _owners.secondaryName = inSecondaryName;
         _owners.primaryAddress = inOwnerAddress;
     }
-    
+
+    function getEmmisionInspectionsId() public view returns(bytes32 emmissionsId) {
+         
+        emmissionsId = _inspections.emmissionsId;
+    }
+
     function setEmmisionInspectionsId(bytes32 id) public {
         if (msg.sender != _owners.primaryAddress) {
              //only owner can change owners
@@ -44,7 +49,12 @@ contract Car {
          
         _inspections.emmissionsId = id;
     }
-    
+
+    function getSafetyInspectionsId() public view returns(bytes32 safetyId) {
+         
+        safetyId = _inspections.safetyId;
+    }
+
     function setSafetyInspectionsId(bytes32 id) public {
         if (msg.sender != _owners.primaryAddress) {
              //only owner can change owners
@@ -52,6 +62,11 @@ contract Car {
          }
          
         _inspections.safetyId = id;
+    }
+
+    function getScrapped() public view returns(bool isScrapped) {
+         
+        isScrapped = _scrapped;
     }
 
     function setScrapped(bool isScrapped) public {

@@ -1,4 +1,5 @@
 server/bin/**
 server/pkg/**
 server/src/**
+smart_contracts/node_modules/**
 smart_contracts/build/**
