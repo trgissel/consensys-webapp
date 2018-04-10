@@ -4,7 +4,7 @@
 
 ## Prerequisite
 
-Follow the BUILD AND DEPLOY steps found at in the contract [README.md](../contracts/README.md)
+Follow the Build AND Deploy steps found at in the smart_contract [README.md](../smart_contracts/README.md)
 
 ### ENV SETUP
 

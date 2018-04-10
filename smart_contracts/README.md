@@ -5,20 +5,16 @@
 * install `solc` or `solcjs` to compile the contracts. See [Solidarity Documention](https://solidity.readthedocs.io/en/latest/installing-solidity.html#binary-packages)
 * install go etherium binaries `geth` and `abigen`.  Installastion instructions can be found here [go-ethereum](https://github.com/ethereum/go-ethereum)
 
-## BUILD AND DEPLOY
-
-Perfom the Build and Deploy cycle whenever changes are made to the `Car.sol` file
-
 ## Test
 
-These steps for for testing with truffle
+These steps for for testing Car contract with truffle
 
 ### Test Prerequisite
 
-* nodejs 8 or newer.  See instructions [nodejs.org](https://nodejs.org/en/)
+* nodejs 8 or newer.  See instructions at [nodejs.org](https://nodejs.org/en/)
 * truffle: `npm install -g truffle`
 
-### Build
+### Test Build
 
 * cd migrations directory: `cd <smart_contracts_dir>/migrations`
 * run `truffle compile`
@@ -71,7 +67,11 @@ truffle(develop)> Car.deployed().then(function(instance){return instance.getMile
 BigNumber { s: 1, e: 0, c: [ 1 ] }
 ```
 
-## Deploy
+## Build and Deploy
+
+Perfom the Build and Deploy cycle whenever changes are made to the `Car.sol` file to ensure the server is up to date
+
+## Build
 
 These steps are for deployment into the ethereum network
 
@@ -92,9 +92,8 @@ These steps are for deployment into the ethereum network
 cp car.go ../../server/contracts/
 ```
 
-### DEPLOY
+### Deploy into Ethereum Network
 
 * If you don't have an ethereum account on target network then create one
   * See [Managing your accounts](https://github.com/ethereum/go-ethereum/wiki/Managing-your-accounts) for more information
 * Deploy Car Smart Contract, see [How To: Deploy Smart Contracts Onto The Ethereum Blockchain](https://medium.com/mercuryprotocol/dev-highlights-of-this-week-cb33e58c745f)
-
