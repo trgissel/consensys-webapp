@@ -1,3 +1,4 @@
 server/bin/**
 server/pkg/**
 server/src/**
+smart_contracts/build/**
