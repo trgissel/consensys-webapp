@@ -127,6 +127,8 @@ func getTransactionDetails(w http.ResponseWriter, req *http.Request) {
 	transactionHash := params["id"]
 	transactionDetails, err := controllers.GetTransactionDetails(ethereumConfig.URL, ethereumConfig.KeyStorePath, ethereumConfig.Passphrase, transactionHash)
 	if err != nil {
+		fmt.Println("Error getting transaction: %v", err)
+
 		if err.Error() == "404" {
 			http.Error(w, "Not Found", http.StatusNotFound)
 			return
