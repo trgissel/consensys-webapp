@@ -23,10 +23,9 @@ func GetTransactionDetails(ctx context.Context, url string, txHashString string)
 	txHash := common.HexToHash(txHashString)
 	client, err := ethclient.Dial(url)
 	d := time.Now().Add(1000 * time.Millisecond)
-	ctx2, cancel := context.WithDeadline(ctx, d)
+	ctx2 := context.WithValue(ctx, "user", txHash)
 	tx, _, err := client.TransactionByHash(ctx2, txHash)
 	if err != nil {
-		cancel()
 		log.Fatalf("Failed to find transaction by hash: %v", err)
 		return txDetails, errors.New("404")
 	}
