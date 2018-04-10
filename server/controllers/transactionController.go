@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"context"
 	"errors"
 	"log"
 
@@ -17,9 +18,9 @@ type key int
 // GetTransactionDetails get transaction details
 func GetTransactionDetails(url string, keystorePath string, passphrase string, txHashString string) (TransactionDetails, error) {
 	var txDetails TransactionDetails
-	conn, auth, err := EthereumClientConnect(url, keystorePath, passphrase)
+	conn, _, err := EthereumClientConnect(url, keystorePath, passphrase)
 	txHash := common.HexToHash(txHashString)
-	tx, _, err := conn.TransactionByHash(auth.Context, txHash)
+	tx, _, err := conn.TransactionByHash(context.TODO(), txHash)
 	if err != nil {
 		log.Fatalf("Failed to find transaction by hash: %v", err)
 		return txDetails, errors.New("404")
