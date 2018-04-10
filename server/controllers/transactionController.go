@@ -19,8 +19,7 @@ func GetTransactionDetails(url string, txHashString string) (TransactionDetails,
 	var txDetails TransactionDetails
 	txHash := common.HexToHash(txHashString)
 	client, err := ethclient.Dial(url)
-	var ctx context.Context
-	ctx, cancel := context.WithTimeout(ctx, 10000*time.Millisecond)
+	ctx, cancel := context.WithTimeout(context.Background(), 10000*time.Millisecond)
 	defer cancel() // releases resources if slowOperation completes before timeout elapses
 	tx, _, err := client.TransactionByHash(ctx, txHash)
 	if err != nil {
