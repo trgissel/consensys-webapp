@@ -57,10 +57,18 @@ contract('Car test', async (accounts) => {
     let account = await accounts.create();
     assert.ok(account)
     let instance = await Car.deployed();
-    let tx = await instance.changeOwners("tom", "amanda", account.address);
+    let primary = "tom"
+    let secondary = "amanda"
+    let primaryInHex = web3Utils.fromAscii(primary)
+    let secondaryInHex = web3Utils.fromAscii(secondary)
+    let tx = await instance.changeOwners(primaryInHex, secondaryInHex, account.address);
     assert.ok(tx)
     assert.ok(tx.receipt)
     assert.ok(tx.receipt.gasUsed > 1)
+    let nOwners = await instance.getOwners();
+    assert.ok(nOwners)
+    assert.ok(web3Utils.toAscii(nOwners[0]).startsWith(primary))
+    assert.ok(web3Utils.toAscii(nOwners[1]).startsWith(secondary))
   })
 
 })
