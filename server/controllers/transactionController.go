@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"encoding/hex"
 	"errors"
 	"log"
 
@@ -10,7 +11,9 @@ import (
 
 // TransactionDetails bits of info
 type TransactionDetails struct {
-	GasUsed int `json:"gasUsed"`
+	Recipient string `json:"recipient"`
+	Cost      string `json:"cost"`
+	GasUsed   int    `json:"gasUsed"`
 }
 
 type key int
@@ -25,6 +28,9 @@ func GetTransactionDetails(url string, keystorePath string, passphrase string, t
 		log.Printf("Failed to find transaction by hash: %v\n", err)
 		return txDetails, errors.New("404")
 	}
+	cost := *(tx.Cost())
+	txDetails.Cost = cost.String()
 	txDetails.GasUsed = int(tx.Gas())
+	txDetails.Recipient = hex.EncodeToString((*tx.To())[:])
 	return txDetails, nil
 }
