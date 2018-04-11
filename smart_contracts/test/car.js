@@ -1,5 +1,6 @@
 const Car = artifacts.require("./contracts/Car.sol");
-const web3 = require('web3-utils');
+const web3Utils = require('web3-utils');
+const web3Accounts = require('web3-eth-accounts');
 
 contract('Car test', async (accounts) => {
 
@@ -21,11 +22,11 @@ contract('Car test', async (accounts) => {
   it("should set setEmmisionInspectionsId", async () => {
     let instance = await Car.deployed();
     let inEmmisionsId = "123abc"
-    let inEmissionsIdb = web3.fromAscii(inEmmisionsId)
+    let inEmissionsIdb = web3Utils.fromAscii(inEmmisionsId)
     let tx = await instance.setEmmisionInspectionsId(inEmissionsIdb)
     assert.ok(tx)
     let outEmissionsIdB = await instance.getEmmisionInspectionsId()
-    let outEmissionsId = web3.toAscii(outEmissionsIdB)
+    let outEmissionsId = web3Utils.toAscii(outEmissionsIdB)
     assert.ok(outEmissionsId.startsWith(inEmmisionsId))
   })
 
@@ -33,11 +34,11 @@ contract('Car test', async (accounts) => {
   it("should set setSafetyInspectionsId", async () => {
     let instance = await Car.deployed();
     let inSafteyId = "456def"
-    let inSafteyIdHex = web3.fromAscii(inSafteyId)
+    let inSafteyIdHex = web3Utils.fromAscii(inSafteyId)
     let tx = await instance.setSafetyInspectionsId(inSafteyIdHex)
     assert.ok(tx)
     let outSafteyIdHex = await instance.getSafetyInspectionsId()
-    let outSafteyId = web3.toAscii(outSafteyIdHex)
+    let outSafteyId = web3Utils.toAscii(outSafteyIdHex)
     assert.ok(outSafteyId.startsWith(inSafteyId))
   })
 
@@ -50,5 +51,15 @@ contract('Car test', async (accounts) => {
     isScrapped = await instance.getScrapped()
     assert.ok(isScrapped)
   })
+
+  it("should change owner", async () => {
+    var accounts = new web3Accounts()
+    let account = await accounts.create();
+    assert.ok(account)
+    let instance = await Car.deployed();
+    let tx = await instance.changeOwners("tom", "amanda", account.address);
+    assert.ok(tx)
+  })
+
 })
 
