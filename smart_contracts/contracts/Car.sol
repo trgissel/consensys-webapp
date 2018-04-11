@@ -25,7 +25,12 @@ contract Car {
         _manufacture = inManufature;
         _owners.primaryAddress = msg.sender;
     }
-    
+
+    function getOwners() public view returns(bytes32, bytes32, address) {
+         
+        return (_owners.primaryName, _owners.secondaryName, _owners.primaryAddress);
+    }
+
     function changeOwners(bytes32 inPrimaryName, bytes32 inSecondaryName, address inOwnerAddress) public {
         if (msg.sender != _owners.primaryAddress) {
              //only owner can change owners
