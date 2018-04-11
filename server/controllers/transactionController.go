@@ -12,7 +12,7 @@ import (
 // TransactionDetails bits of info
 type TransactionDetails struct {
 	Recipient string `json:"recipient"`
-	Cost      string `json:"cost"`
+	Price     string `json:"cost"`
 	GasUsed   int    `json:"gasUsed"`
 }
 
@@ -28,8 +28,8 @@ func GetTransactionDetails(url string, keystorePath string, passphrase string, t
 		log.Printf("Failed to find transaction by hash: %v\n", err)
 		return txDetails, errors.New("404")
 	}
-	cost := *(tx.Cost())
-	txDetails.Cost = cost.String()
+	price := *(tx.GasPrice())
+	txDetails.Price = price.String()
 	txDetails.GasUsed = int(tx.Gas())
 	addressP := tx.To()
 	if addressP != nil {
