@@ -31,6 +31,9 @@ func GetTransactionDetails(url string, keystorePath string, passphrase string, t
 	cost := *(tx.Cost())
 	txDetails.Cost = cost.String()
 	txDetails.GasUsed = int(tx.Gas())
-	txDetails.Recipient = hex.EncodeToString((*tx.To())[:])
+	addressP := tx.To()
+	if addressP != nil {
+		txDetails.Recipient = hex.EncodeToString((*addressP)[:])
+	}
 	return txDetails, nil
 }
