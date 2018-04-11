@@ -12,7 +12,7 @@ import (
 // TransactionDetails bits of info
 type TransactionDetails struct {
 	Recipient string `json:"recipient"`
-	Price     string `json:"cost"`
+	Price     string `json:"price"`
 	GasUsed   int    `json:"gasUsed"`
 }
 
