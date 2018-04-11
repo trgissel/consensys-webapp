@@ -59,6 +59,8 @@ contract('Car test', async (accounts) => {
     let instance = await Car.deployed();
     let tx = await instance.changeOwners("tom", "amanda", account.address);
     assert.ok(tx)
+    assert.ok(tx.receipt)
+    assert.ok(tx.receipt.gasUsed > 1)
   })
 
 })
